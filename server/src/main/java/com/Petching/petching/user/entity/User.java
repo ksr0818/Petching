@@ -1,12 +1,17 @@
 package com.Petching.petching.user.entity;
 
 import com.Petching.petching.audit.Auditable;
+import com.Petching.petching.board.entity.Board;
+import com.Petching.petching.carepost.entity.CarePost;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity @Getter @Builder
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Setter
+@NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "USERS")
 public class User extends Auditable {
@@ -17,6 +22,7 @@ public class User extends Auditable {
     @Column(nullable = false, length = 15, unique = true)
     private String nickName;
 
+    @Column
     private String password;
 
     @Column(nullable = false, unique = true)
@@ -30,26 +36,40 @@ public class User extends Auditable {
 
     private String socialId;
 
-    private String refreshToken;
+    private String profileImgUrl;
 
-   /* public void passwordEncode (PasswordEncoder passwordEncoder) {
-        this.password = passwordEncoder.encode(this.password);
-    }*/
+    @Transient
+    private boolean userDivision;
 
-    public void updateRefreshToken (String updateRefreshToke) {
-        this.refreshToken = updateRefreshToke;
-    }
+    @ElementCollection
+    private List<Long> likedBoardList = new ArrayList<>();
+
+    @ElementCollection(fetch = FetchType.EAGER)
+    private List<String> roles = new ArrayList<>();
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE)
+    private List<CarePost> carePosts = new ArrayList<>();
+
 
     public void updateNickName (String nickName) {
         this.nickName = nickName;
-    }
-    public void updateEmail (String email) {
-        this.email = email;
     }
     public void updatePassword (String password) {
         this.password = password;
     }
     public void updateAddress (String address) {
         this.address = address;
+    }
+
+    public void addLikedBoard(Long boardId){
+        likedBoardList.add(boardId);
+    }
+
+    public void deleteLikedBoard(Long boardId){
+        likedBoardList.remove(boardId);
+    }
+
+    public void updateProfileImgUrl(String imgUrl) {
+        this.profileImgUrl = imgUrl;
     }
 }

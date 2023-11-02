@@ -1,6 +1,8 @@
 package com.Petching.petching.carepost.dto;
 
+import com.Petching.petching.user.entity.User;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -9,65 +11,104 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @Getter
 public class CarePostDto {
     @Getter @Setter
+    @Builder
+    @AllArgsConstructor
     public static class Post {
-        private Long userId;
 
         @NotBlank(message = "제목은 필수 입력 사항입니다.")
         @Size(max = 250, message = "제목은 250자를 넘을 수 없습니다.")
         private String title;
-
         @NotBlank(message = "내용은 필수 입력 사항입니다.")
         private String content;
+        private List<String > imgUrls;
+        private Map<String,Integer> startDate;
+        private Map<String,Integer> endDate;
+        @NotBlank(message = "필수 입력 사항입니다.")
+        private String conditionTag;
+        @NotBlank(message = "필수 입력 사항입니다.")
+        private String locationTag;
+        private String memo;
+        private List<String> petSizes;
+        public Post(){
 
-        @NotBlank
-        private String image;
-
-        private Date startDate;
-        private Date endDate;
-
-        private List<String> conditionTags;
-        private List<String> locationTags;
+        }
     }
 
     @Getter @Setter
+    @Builder
+    @AllArgsConstructor
     public static class Patch {
-        private Long userId;
 
-        @NotBlank(message = "제목은 필수 입력 사항입니다.")
         @Size(max = 250, message = "제목은 250자를 넘을 수 없습니다.")
         private String title;
-
-        @NotBlank(message = "내용은 필수 입력 사항입니다.")
         private String content;
+        private List<String > imgUrls;
+        private Map<String,Integer> startDate;
+        private Map<String,Integer> endDate;
+        private String conditionTag;
+        private String locationTag;
+        private String memo;
+        private List<String> petSizes;
 
-        @NotBlank
-        private String image;
+        public Patch(){
 
-        private Date startDate;
-        private Date endDate;
-
-        private List<String> conditionTags;
-        private List<String> locationTags;
+        }
     }
 
     @Getter @Setter
     @AllArgsConstructor
+    @Builder
     public static class Response {
 
+        private Long postId;
+        private Long userId;
         private String title;
-
         private String content;
+        private List<String> imgUrls;
+        private String nickName;
+        private String profileImgUrl;
+        private Map<String,Integer> startDate;
+        private Map<String,Integer> endDate;
+        private String conditionTag;
+        private String locationTag;
+        private String memo;
+        private List<String> petSizes;
 
-        private String image;
+        public Response() {
+        }
+    }
+    @Getter @Setter
+    @AllArgsConstructor
+    @Builder
+    public static class Detail {
 
-        private Date startDate;
-        private Date endDate;
+        private String title;
+        private String content;
+        private List<String > imgUrls;
+        private String profileImgUrl;
+        private String nickName;
+        private Map<String,Integer> startDate;
+        private Map<String,Integer> endDate;
+        private String conditionTag;
+        private String locationTag;
+        private List<String> petSizes;
 
-        private List<String> conditionTags;
-        private List<String> locationTags;
+        public Detail(){
+
+        }
+    }
+    @Getter @AllArgsConstructor @Builder
+    public static class MyPage {
+        private String title;
+        private List<String> petSizes;
+        private List<String> imgUrls;
+        private String profileImgUrl;
+        private String nickName;
+        private String locationTag;
     }
 }
